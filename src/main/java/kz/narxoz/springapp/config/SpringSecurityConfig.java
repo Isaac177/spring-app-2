@@ -20,6 +20,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/books").hasAnyRole("BOOK")
                 .antMatchers("/edit/**").hasAnyRole("ADMIN")
                 .antMatchers("/delete/**").hasAnyRole("ADMIN")
+                .antMatchers("/signup/**").hasAnyRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
@@ -31,10 +32,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance())
-                .withUser("user").password("userPW").roles("USER")
-                .and()
-                .withUser("book").password("bookPW").roles("BOOK", "USER");
-
-
+            .withUser("user").password("userPW").roles("USER")
+            .and()
+            .withUser("book").password("bookPW").roles("BOOK", "USER")
+            .and()
+            .withUser("student").password("studentPW").roles("USER")
+            .and()
+            .withUser("admin").password("adminPW").roles("ADMIN");
     }
 }
